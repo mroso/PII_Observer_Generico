@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PII_Observer
+namespace Program
 {
     class Program
     {
