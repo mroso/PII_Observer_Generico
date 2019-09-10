@@ -6,9 +6,9 @@ namespace Observer
     {
         private bool first = true;
         private Temperature last;
-        private TemperatureMonitor provider;
+        private TemperatureSensor provider;
 
-        public void StartReporting(TemperatureMonitor provider)
+        public void StartReporting(TemperatureSensor provider)
         {
             this.provider = provider;
             this.first = true;
