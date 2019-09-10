@@ -2,44 +2,35 @@ using System;
 
 namespace Observer
 {
-    public class TemperatureReporter : IObserver<Temperature>
+    public class TemperatureReporter : IObserver
     {
-        private IDisposable unsubscriber;
         private bool first = true;
         private Temperature last;
+        private TemperatureMonitor provider;
 
-        public virtual void Subscribe(IObservable<Temperature> provider)
+        public virtual void Subscribe(TemperatureMonitor provider)
         {
-            unsubscriber = provider.Subscribe(this);
+            this.provider = provider;
+            this.provider.Subscribe(this);
         }
 
         public virtual void Unsubscribe()
         {
-            unsubscriber.Dispose();
+            this.provider.Unsubscribe(this);
         }
 
-        public virtual void OnCompleted()
+        public virtual void Update()
         {
-            Console.WriteLine("Additional temperature data will not be transmitted.");
-        }
-
-        public virtual void OnError(Exception error)
-        {
-            // Do nothing.
-        }
-
-        public virtual void OnNext(Temperature value)
-        {
-            Console.WriteLine("The temperature is {0}°C at {1:g}", value.Degrees, value.Date);
+            Console.WriteLine($"The temperature is {provider.Current.Degrees}°C at {provider.Current.Date:g}");
             if (first)
             {
-                last = value;
+                last = provider.Current;
                 first = false;
             }
             else
             {
-                Console.WriteLine("   Change: {0}° in {1:g}", value.Degrees - last.Degrees,
-                                                              value.Date.ToUniversalTime() - last.Date.ToUniversalTime());
+                Console.WriteLine($"   Change: {provider.Current.Degrees - last.Degrees}° in " +
+                    $"{provider.Current.Date.ToUniversalTime() - last.Date.ToUniversalTime():g}");
             }
         }
     }
