@@ -6,14 +6,9 @@ namespace Observer
 {
     public class TemperatureMonitor : IObservable
     {
-        List<IObserver> observers;
+        List<IObserver> observers = new List<IObserver>();
 
         public Temperature Current { get; private set; }
-
-        public TemperatureMonitor()
-        {
-            observers = new List<IObserver>();
-        }
 
         public void Subscribe(IObserver observer)
         {

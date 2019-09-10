@@ -8,29 +8,30 @@ namespace Observer
         private Temperature last;
         private TemperatureMonitor provider;
 
-        public virtual void Subscribe(TemperatureMonitor provider)
+        public void StartReporting(TemperatureMonitor provider)
         {
             this.provider = provider;
+            this.first = true;
             this.provider.Subscribe(this);
         }
 
-        public virtual void Unsubscribe()
+        public void StopReporting()
         {
             this.provider.Unsubscribe(this);
         }
 
-        public virtual void Update()
+        public void Update()
         {
-            Console.WriteLine($"The temperature is {provider.Current.Degrees}°C at {provider.Current.Date:g}");
+            Console.WriteLine($"The temperature is {this.provider.Current.Degrees}°C at {this.provider.Current.Date:g}");
             if (first)
             {
-                last = provider.Current;
+                last = this.provider.Current;
                 first = false;
             }
             else
             {
-                Console.WriteLine($"   Change: {provider.Current.Degrees - last.Degrees}° in " +
-                    $"{provider.Current.Date.ToUniversalTime() - last.Date.ToUniversalTime():g}");
+                Console.WriteLine($"   Change: {this.provider.Current.Degrees - last.Degrees}° in " +
+                    $"{this.provider.Current.Date.ToUniversalTime() - last.Date.ToUniversalTime():g}");
             }
         }
     }

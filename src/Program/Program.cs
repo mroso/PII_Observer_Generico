@@ -8,7 +8,7 @@ namespace Observer
         {
             TemperatureMonitor monitor = new TemperatureMonitor();
             TemperatureReporter reporter = new TemperatureReporter();
-            reporter.Subscribe(monitor);
+            reporter.StartReporting(monitor);
             monitor.GetTemperature();
         }
     }
