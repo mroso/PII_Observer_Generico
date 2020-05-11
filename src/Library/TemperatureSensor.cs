@@ -4,13 +4,17 @@ using System.Collections.Generic;
 
 namespace Observer
 {
-    public class TemperatureSensor : IObservable
+
+//Implementa la interfaz IObservable y los objetos van a ser temperaturas
+    public class TemperatureSensor : IObservable<Temperature>
     {
-        List<IObserver> observers = new List<IObserver>();
+
+//Lista de IObservers que seran temperaturas, que es lo que debo controlar en sus cambios
+        List<IObserver<Temperature>> observers = new List<IObserver<Temperature>>();
 
         public Temperature Current { get; private set; }
 
-        public void Subscribe(IObserver observer)
+        public void Subscribe(IObserver<Temperature> observer)
         {
             if (! observers.Contains(observer))
             {
@@ -18,7 +22,7 @@ namespace Observer
             }
         }
 
-        public void Unsubscribe(IObserver observer)
+        public void Unsubscribe(IObserver<Temperature> observer)
         {
             if (observers.Contains(observer))
             {
